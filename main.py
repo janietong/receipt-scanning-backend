@@ -9,13 +9,8 @@ client = OpenAI(
     api_key = os.environ["OPENAI_API_KEY"],
 )
 
-image_path = "moose.jpg"
-
-def encode_image(image_path):
-  with open(image_path, "rb") as image_file:
+def encode_image(image_file):
     return base64.b64encode(image_file.read()).decode('utf-8')
-
-image = encode_image(image_path)
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -39,13 +34,14 @@ def upload_image():
 
     file = request.files['file']
 
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
-    if file:
-        file.save(file.filename)
-        response = getresponse(image, client)
-        return jsonify({'message': response, 'filename': file.filename}), 200
-
+    try:
+        img_bytes = file.read()
+        img_base64 = base64.b64encode(img_bytes).decode('utf-8')
+        response = getresponse(img_base64, client)
+        return jsonify({'message': response})
+    
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
