@@ -21,12 +21,6 @@ def home():
     return jsonify(message="Hello, World!")
 
 @cross_origin()
-@app.route('/api/getresponse')
-def get_data():
-    response = getresponse(image, client)
-    return jsonify(data=response)
-
-@cross_origin()
 @app.route('/upload', methods=['POST'])
 def upload_image():
     if 'file' not in request.files:
