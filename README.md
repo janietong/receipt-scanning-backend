@@ -1,1 +1,1 @@
-# receipt-scanning-front
+# receipt-scanning-backend
