@@ -47,5 +47,5 @@ def upload_image():
         response = getresponse(image, client)
         return jsonify({'message': response, 'filename': file.filename}), 200
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True, port=5000)
